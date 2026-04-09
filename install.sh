@@ -37,9 +37,21 @@ service_file="/etc/systemd/system/sniproxy-tls-rf.service"
 
 # 5. 交互式配置：端口
 echo -e "${BLUE}>>> 端口配置${NC}"
-read -p "请输入服务监听端口 [默认 443]: " LISTEN_PORT
+# 在 curl | bash 模式下，需要强制从 /dev/tty 读取输入
+if [ -t 0 ]; then
+    read -p "请输入服务监听端口 [默认 443]: " LISTEN_PORT
+else
+    read -p "请输入服务监听端口 [默认 443]: " LISTEN_PORT < /dev/tty
+fi
+
 if [ -z "$LISTEN_PORT" ]; then
     LISTEN_PORT=443
+fi
+
+# 确保端口是数字
+if ! [[ "$LISTEN_PORT" =~ ^[0-9]+$ ]]; then
+    echo -e "${RED}错误: 端口号必须是纯数字。${NC}"
+    exit 1
 fi
 
 # 6. 端口冲突检查
