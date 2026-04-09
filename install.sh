@@ -77,6 +77,8 @@ fi
 
 # 7. 下载二进制文件
 echo -e "${BLUE}[1/4] 下载二进制文件...${NC}"
+# 先停止旧服务，防止 Text file busy 报错
+systemctl stop sniproxy-tls-rf 2>/dev/null
 curl -L "$GITHUB_URL" -o "$INSTALL_DIR/sniproxy-tls-rf"
 if [ $? -ne 0 ]; then
     echo -e "${RED}下载失败，请检查网络连接。${NC}"
