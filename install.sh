@@ -61,7 +61,11 @@ OCCUPIED_PID=$(lsof -t -i :$LISTEN_PORT)
 if [ ! -z "$OCCUPIED_PID" ]; then
     OCCUPIED_NAME=$(ps -p $OCCUPIED_PID -o comm=)
     echo -e "${RED}警告: 端口 $LISTEN_PORT 已被进程 [ $OCCUPIED_NAME (PID: $OCCUPIED_PID) ] 占用。${NC}"
-    read -p "是否强制结束该进程并继续? [y/N]: " CONFIRM_KILL
+    if [ -t 0 ]; then
+        read -p "是否强制结束该进程并继续? [y/N]: " CONFIRM_KILL
+    else
+        read -p "是否强制结束该进程并继续? [y/N]: " CONFIRM_KILL < /dev/tty
+    fi
     if [[ "$CONFIRM_KILL" =~ ^[Yy]$ ]]; then
         kill -9 $OCCUPIED_PID
         echo -e "${GREEN}进程已清理。${NC}"
