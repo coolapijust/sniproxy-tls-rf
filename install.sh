@@ -26,9 +26,10 @@ case $ARCH in
     *) echo -e "${RED}不支持的架构: $ARCH${NC}"; exit 1 ;;
 esac
 
-# 3. 设置下载地址 (未来 GitHub 地址)
+# 3. 设置下载地址
 REPO="coolapijust/sniproxy-tls-rf"
-GITHUB_URL="https://github.com/$REPO/releases/latest/download/sniproxy-tls-rf-linux-$BIN_ARCH"
+VERSION="v0.1"
+GITHUB_URL="https://github.com/$REPO/releases/download/$VERSION/sniproxy-tls-rf-linux-$BIN_ARCH"
 
 # 4. 设置下载及安装路径
 INSTALL_DIR="/usr/local/bin"
