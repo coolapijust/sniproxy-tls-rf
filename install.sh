@@ -96,9 +96,14 @@ echo -e "${BLUE}[4/4] 验证安装状况...${NC}"
 if systemctl is-active --quiet sniproxy-tls-rf; then
     echo -e "${GREEN}=================================================${NC}"
     echo -e "${GREEN}安装成功!${NC}"
-    echo -e "服务已监听在: ${BLUE}:$LISTEN_PORT${NC}"
-    echo -e "使用以下命令查看日志: ${BLUE}journalctl -u sniproxy-tls-rf -f${NC}"
+    echo -e "服务端口: ${BLUE}$LISTEN_PORT${NC}"
+    echo -e "日志查询: ${BLUE}journalctl -u sniproxy-tls-rf -f${NC}"
+    echo -e "卸载命令: ${BLUE}$0 uninstall${NC}"
+    echo -e "-------------------------------------------------"
+    echo -e "${GREEN}提示: 若无法连接，请确保防火墙已放行端口:${NC}"
+    echo -e "UFW:   ${BLUE}ufw allow $LISTEN_PORT/tcp${NC}"
+    echo -e "IPTables: ${BLUE}iptables -I INPUT -p tcp --dport $LISTEN_PORT -j ACCEPT${NC}"
     echo -e "${GREEN}=================================================${NC}"
 else
-    echo -e "${RED}服务启动失败，请检查日志。${NC}"
+    echo -e "${RED}服务启动失败，请检查 [ journalctl -u sniproxy-tls-rf -n 50 ] 了解原因。${NC}"
 fi
