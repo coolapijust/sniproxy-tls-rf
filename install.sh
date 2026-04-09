@@ -38,7 +38,9 @@ service_file="/etc/systemd/system/sniproxy-tls-rf.service"
 # 5. 交互式配置：端口
 echo -e "${BLUE}>>> 端口配置${NC}"
 read -p "请输入服务监听端口 [默认 443]: " LISTEN_PORT
-LISTEN_PORT=${LISTEN_PORT:-443}
+if [ -z "$LISTEN_PORT" ]; then
+    LISTEN_PORT=443
+fi
 
 # 6. 端口冲突检查
 echo -e "${BLUE}>>> 正在检查端口 $LISTEN_PORT 是否被占用...${NC}"
